@@ -20,9 +20,10 @@ The full article https://www.avioconsulting.com/blog/overcoming-javascript-numer
 All existing solutions suggest us to round the number to some predefined amount of decimal digits. Simply said, to use `.toFixed(N)`. But what if I don't know how many digits do I need?
 
 Another solution is to use the `Math.js` library https://mathjs.org/docs/datatypes/bignumbers.html#roundoff-errors
-Really? I have to pull a huge library to resolve so common problem?
 
-I couldn't belive that there are no some simple solution to resolve the problem so I wrote my own dead-simple and lightning-fast solution:
+Really? Do I have to pull a huge library to resolve so common problem?
+
+I couldn't believe that there is no some simple solution to resolve the problem so I wrote my own dead-simple and lightning-fast solution:
 
 ```js
 const [intPart, decimalPart] = `${value}`.split('.');
