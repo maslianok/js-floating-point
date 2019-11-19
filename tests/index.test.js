@@ -2,8 +2,16 @@
  * your tests goes here
  * */
 
-import myModule from '../src/index';
+import floatingPoint from '../src/index';
 
-test('your module', () => {
-  expect(myModule(1, 2)).toBe(3);
+describe('floatingPoint module', () => {
+  test('0.2 + 0.1', () => {
+    expect(0.2 + 0.1).toBe(0.30000000000000004);
+    expect(floatingPoint(0.2 + 0.1)).toBe(0.3);
+  });
+
+  test('0.3 - 0.1', () => {
+    expect(0.3 - 0.1).toBe(0.19999999999999998);
+    expect(floatingPoint(0.3 - 0.1)).toBe(0.2);
+  });
 });

@@ -1,30 +1,69 @@
-# npm module template
+# The problem
 
-- 👩‍💻Focus on the logic. Don't waste your time setting up environment!
-- ✍️Write code like it's 2020 using ES6 syntax. The code will be transpiled and minified before deployment.
-- 🛠Test: use Jest to cover your module with unit tests.
+Floating-point numbers are represented as binary fractions. Regrettably, most decimal fractions cannot be represented exactly as binary fractions. The decimal floating-point numbers you enter are only approximated by the binary floating-point numbers actually stored in the machine. That being said, you'll see that floating-point arithmetic is NOT 100% accurate.
 
-Сomplies with GitHub best practices:
+```
+0.2 + 0.1
+0.30000000000000004
 
-- 🔑`LICENSE` describes the license agreement. This template uses MIT license
-- 📁`.editorconfig` sets up code style rules across all popular code redactors
-- ⚖️`.gitignore` and `.npmignore`: splits up the code into 2 chunks: sources will be uploaded to github, transpiled and minified files - to `npm`
-- 🔬`.eslintrc` lists eslint settings
-- 🏭`.babelrc` describes ES6->ES5 rules
+0.3 - 0.1
+0.19999999999999998
+
+1111.11 + 1111.11 + 1111.11 + 1111.11 + 1111.11
+5555.549999999999
+```
+
+The full article https://www.avioconsulting.com/blog/overcoming-javascript-numeric-precision-issues
+
+# The solution
+
+All existing solutions suggest us to round the number to some predefined amount of decimal digits. Simply said, to use `.toFixed(N)`. But what if I don't know how many digits do I need?
+
+Another solution is to use the `Math.js` library https://mathjs.org/docs/datatypes/bignumbers.html#roundoff-errors
+Really? I have to pull a huge library to resolve so common problem?
+
+I couldn't belive that there are no some simple solution to resolve the problem so I wrote my own dead-simple and lightning-fast solution:
+
+```js
+const [intPart, decimalPart] = `${value}`.split('.');
+const matched = decimalPart.match(/(9{6,}|0{6,})(\\d)*$/gm);
+
+if (!matched) {
+  // no floating-point bug
+  return value;
+}
+
+const [wrongPart] = matched;
+const correctDecimalsLength = decimalPart.length - wrongPart.length;
+const result = parseFloat(`${intPart}.${decimalPart}`).toFixed(
+  correctDecimalsLength
+);
+```
+
+To make it clear: the function is trying to find N repeating `0`s or `9`s and, if such sequence is found, it removes it rounding the last correct digit. That's all!
+
+Just look at tests
+
+# Installation
+
+```
+yarn add js-floating-point
+```
 
 # Usage
 
-Create your own module in 3 simple steps:
+```js
+import floatingPointFix from 'js-floating-point';
 
-1. Press "Use this template" button and type a name of your new module
+0.2 + 0.1;
+// WRONG: 0.30000000000000004
 
-<img width="701" alt="Screenshot 2019-11-19 at 17 58 17" src="https://user-images.githubusercontent.com/3485490/69136644-3378aa80-0af6-11ea-8164-ed99a303bfab.png">
+floatingPointFix(0.2 + 0.1);
+// CORRECT: 0.3
 
-2. Add some fancy logic to `src` folder
+0.3 - 0.1;
+// WRONG: 0.19999999999999998
 
-3. Run `yarn build` to build the module and publish it using `npm publish`
-
-Optional:
-
-- describe you module's API in the README.md file
-- add unit tests
+floatingPointFix(0.3 - 0.1);
+// CORRECT: 0.2
+```

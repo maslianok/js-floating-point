@@ -3,5 +3,8 @@
   "extends": "airbnb-base",
   "env": {
     "jest": true
+  },
+  "rules": {
+    "comma-dangle": 0
   }
 }

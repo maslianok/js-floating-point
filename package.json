@@ -1,7 +1,7 @@
 {
-  "name": "npm-module-templ",
+  "name": "js-floating-point",
   "version": "1.0.0",
-  "description": "npm module template",
+  "description": "Dead-simple and lightning-fast solution for the floating-point issue in JavaScript",
   "main": "lib/index.js",
   "dependencies": {},
   "devDependencies": {
@@ -26,17 +26,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/maslianok/npm-module-template.git"
+    "url": "git+https://github.com/maslianok/js-floating-point.git"
   },
   "keywords": [
     "javascript",
     "floating-point",
     "floating"
   ],
-  "author": "YOUR NAME",
+  "author": "Vitalii Maslianok",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/maslianok/npm-module-template/issues"
+    "url": "https://github.com/maslianok/js-floating-point/issues"
   },
-  "homepage": "https://github.com/maslianok/npm-module-template#readme"
+  "homepage": "https://github.com/maslianok/js-floating-point#readme"
 }
